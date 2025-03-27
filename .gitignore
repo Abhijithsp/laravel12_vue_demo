@@ -25,3 +25,4 @@ yarn-error.log
 .github
 composer.lock
 package-lock.json
+/storage/grok_installed.lock
