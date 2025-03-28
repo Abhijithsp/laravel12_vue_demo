@@ -70,15 +70,19 @@ const submit = () => {
 
                     <div class="grid gap-2">
                         <Label for="image">Image</Label>
-                        <Input id="image" type="file" v-model="form.image" />
+                        <Input id="image" type="file" :tabindex="3" @input="form.image = $event.target.files[0]" />
                         <InputError :message="form.errors.image" />
                     </div>
 
 
-                    <Button type="submit" class="mt-4 w-full" variant="destructive" :tabindex="4" :disabled="form.processing">
-                        <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
-                        Log in
+                    <Button type="submit" class="mt-4 w-full" variant="destructive" :tabindex="4" >
+
+                       Submit
                     </Button>
+                    <progress v-if="form.progress" :value="form.progress.percentage" max="100">
+                        {{ form.progress.percentage }}%
+                    </progress>
+
                 </div>
 
 
