@@ -26,3 +26,4 @@ yarn-error.log
 composer.lock
 package-lock.json
 /storage/grok_installed.lock
+grok_curl_shell.http

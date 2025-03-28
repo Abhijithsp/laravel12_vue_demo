@@ -1,0 +1,28 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=PhpStorm
+
+###
+
+POST https://api.x.ai/v1/chat/completions
+Authorization: Bearer xai-BdyT4eKdPJrJuonFN16U8OATFN5k2iVAcTAANMIVrhgShQ0wGqcJY7absP3QFnYNXcG6zhwSRaj8LPUJ
+Content-Type: application/json
+
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a test assistant."
+        },
+        {
+            "role": "user",
+            "content": "Testing. Just say hi and hello world and nothing else."
+        }
+    ],
+    "model": "grok-2-latest",
+    "stream": false,
+    "temperature": 0
+}
+
+###
+

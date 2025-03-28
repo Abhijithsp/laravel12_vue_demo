@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Post;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class PostStoreController extends Controller
+class PostDeleteController extends Controller
 {
     /**
      * Handle the incoming request.

@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\Admin\PostIndexController;
-
+use App\Http\Controllers\Admin\Chat\ChatController;
+use App\Http\Controllers\Admin\Post\PostIndexController;
+use App\Http\Controllers\Admin\Post\PostStoreController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -14,7 +15,10 @@ Route::get('dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('posts',PostIndexController::class)->name('admin.posts.index');
+    Route::get('posts',PostIndexController::class)->name('posts.index');
+    Route::post('posts',PostStoreController::class)->name('posts.store');
+
+    Route::post('grok_chat',ChatController::class)->name('grok_chat ');
 
 });
 
