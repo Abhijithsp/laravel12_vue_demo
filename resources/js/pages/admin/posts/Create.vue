@@ -75,7 +75,7 @@ const submit = () => {
                     </div>
 
 
-                    <Button type="submit" class="mt-4 w-full" variant="destructive" :tabindex="4" >
+                    <Button type="submit" class="mt-4 w-full" variant="destructive" :tabindex="4" :disabled="form.processing">
 
                        Submit
                     </Button>
