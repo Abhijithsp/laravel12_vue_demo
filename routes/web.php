@@ -22,7 +22,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('posts',PostIndexController::class)->name('posts.index');
     Route::post('posts',PostStoreController::class)->name('posts.store');
     Route::inertia('posts/create','admin/posts/Create');
-    Route::put('posts/{post}/edit',PostEditController::class)->name('posts.edit');
+    Route::get('posts/{post}/edit',PostEditController::class)->name('posts.edit');
     Route::put('posts/{post}',PostUpdateController::class)->name('posts.update');
     Route::delete('posts/{post}',PostDeleteController::class)->name('posts.destroy');
 

@@ -14,12 +14,9 @@ class PostDeleteController extends Controller
      */
     public function __invoke(Post $post)
     {
-
         if ($post->image) {
             Storage::delete("storage/{$post->image}");
         }
-
-
         $post->delete();
 
         return to_route('posts.index')->with('success', 'Post and image deleted successfully.');
