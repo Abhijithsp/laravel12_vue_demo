@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head ,Link,usePage } from '@inertiajs/vue3';
+import { Head ,Link,usePage,useForm,router  } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { Button } from '@/components/ui/button';
 import {StickyNote,Pencil,Trash2}  from 'lucide-vue-next';
@@ -19,6 +19,17 @@ const page = usePage()
 
 const flash = computed(() => page.props.flash)
 defineProps({ posts: Object })
+const form = useForm({});
+const deletePost = (id: number) => {
+    if (confirm("Are you sure you want to delete this post and its image?")) {
+        form.delete(route("posts.destroy", id), {
+            onSuccess: () => {
+                alert("Post and image deleted successfully!");
+            },
+
+        });
+    }
+};
 </script>
 
 <template>
@@ -70,7 +81,7 @@ defineProps({ posts: Object })
                             <TableCell class="font-medium text-center"><Button class="mt-2 w-30 justify-center">
                                 <Pencil />Edit
                             </Button></TableCell>
-                            <TableCell class="font-medium text-center"><Button variant="destructive" class="mt-2 w-30 justify-center">
+                            <TableCell class="font-medium text-center"><Button variant="destructive"  @click="deletePost(post.id)" class="mt-2 w-30 justify-center">
                                 <Trash2 />Delete
                             </Button></TableCell>
                         </TableRow>
