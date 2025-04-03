@@ -37,10 +37,7 @@ const handleImageChange = (event: Event) => {
 };
 
 const submit = () => {
-    form.post(route('posts.store'), {
-        onSuccess: () => console.log('Post created successfully'),
-        onError: (errors) => console.log('Errors:', errors),
-    });
+    form.post(route('posts.store'));
 };
 </script>
 

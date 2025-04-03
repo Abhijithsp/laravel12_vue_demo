@@ -4,9 +4,10 @@ import { type BreadcrumbItem } from '@/types';
 import { Head ,Link,usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { Button } from '@/components/ui/button';
-import {StickyNote}  from 'lucide-vue-next';
+import {StickyNote,Pencil,Trash2}  from 'lucide-vue-next';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from '@/components/ui/table'
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -17,6 +18,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 const page = usePage()
 
 const flash = computed(() => page.props.flash)
+defineProps({ posts: Object })
 </script>
 
 <template>
@@ -24,7 +26,7 @@ const flash = computed(() => page.props.flash)
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <Alert v-if="flash.error">
+            <Alert variant="destructive" v-if="flash.error" >
                 <AlertTitle>Error</AlertTitle>
                 <AlertDescription>
                     {{flash.error }}
@@ -37,35 +39,40 @@ const flash = computed(() => page.props.flash)
                 </AlertDescription>
             </Alert>
             <div class="flex justify-end">
-                <Button variant="destructive" class="mt-2 w-40 justify-center">
-                    <StickyNote /><Link href="/posts/create">Create Post</Link>
-                </Button>
+                <Link href="/posts/create">   <Button variant="destructive" class="mt-2 w-40 justify-center">
+                    <StickyNote />Create Post
+                </Button></Link>
             </div>
             <div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min">
                 <Table>
-                    <TableCaption>A list of your recent invoices.</TableCaption>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead class="w-[100px]">
-                                Invoice
+
+                    <TableHeader class="justify-center">
+                        <TableRow >
+                            <TableHead class="w-[100px] font-medium text-center">
+                                Sl No
                             </TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead>Method</TableHead>
-                            <TableHead class="text-right">
-                                Amount
+                            <TableHead class="w-[100px] font-medium text-center">
+                                Title
                             </TableHead>
+                            <TableHead class="font-medium text-center">Descriptions</TableHead>
+                            <TableHead class="font-medium text-center">Image</TableHead>
+                            <TableHead class="font-medium text-center">Edit</TableHead>
+                            <TableHead class="font-medium text-center">Delete</TableHead>
+
                         </TableRow>
                     </TableHeader>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell class="font-medium">
-                                INV001
-                            </TableCell>
-                            <TableCell>Paid</TableCell>
-                            <TableCell>Credit Card</TableCell>
-                            <TableCell class="text-right">
-                                $250.00
-                            </TableCell>
+                    <TableBody class="justify-center">
+                        <TableRow v-for="(post, index) in posts" :key="index">
+                            <TableCell class="font-medium text-center">{{ post.id }}</TableCell>
+                            <TableCell class="font-medium text-center">{{ post.title }}</TableCell>
+                            <TableCell class="font-medium text-center">{{ post.content }}</TableCell>
+                            <TableCell><img :src="`/storage/${post.image}`" alt="image" class="h-20 w-20 rounded object-fill"></TableCell>
+                            <TableCell class="font-medium text-center"><Button class="mt-2 w-30 justify-center">
+                                <Pencil />Edit
+                            </Button></TableCell>
+                            <TableCell class="font-medium text-center"><Button variant="destructive" class="mt-2 w-30 justify-center">
+                                <Trash2 />Delete
+                            </Button></TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
