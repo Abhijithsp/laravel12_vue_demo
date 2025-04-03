@@ -5,6 +5,7 @@ import { Head ,Link,usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { Button } from '@/components/ui/button';
 import {StickyNote}  from 'lucide-vue-next';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from '@/components/ui/table'
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -23,13 +24,18 @@ const flash = computed(() => page.props.flash)
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <div v-if="flash.error" class="alert_error">
-                {{flash.error }}
-            </div>
-
-            <div v-if="flash.message" class="alert">
-                {{ flash.message }}
-            </div>
+            <Alert v-if="flash.error">
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>
+                    {{flash.error }}
+                </AlertDescription>
+            </Alert>
+            <Alert v-if="flash.success">
+                <AlertTitle>Success</AlertTitle>
+                <AlertDescription>
+                    {{flash.success }}
+                </AlertDescription>
+            </Alert>
             <div class="flex justify-end">
                 <Button variant="destructive" class="mt-2 w-40 justify-center">
                     <StickyNote /><Link href="/posts/create">Create Post</Link>
