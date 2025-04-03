@@ -1,19 +1,11 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head ,Link} from '@inertiajs/vue3';
-import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
+import { Head ,Link,usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import { Button } from '@/components/ui/button';
 import {StickyNote}  from 'lucide-vue-next';
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/components/ui/table'
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from '@/components/ui/table'
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -21,6 +13,9 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/posts',
     },
 ];
+const page = usePage()
+
+const flash = computed(() => page.props.flash)
 </script>
 
 <template>
@@ -28,6 +23,13 @@ const breadcrumbs: BreadcrumbItem[] = [
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+            <div v-if="flash.error" class="alert_error">
+                {{flash.error }}
+            </div>
+
+            <div v-if="flash.message" class="alert">
+                {{ flash.message }}
+            </div>
             <div class="flex justify-end">
                 <Button variant="destructive" class="mt-2 w-40 justify-center">
                     <StickyNote /><Link href="/posts/create">Create Post</Link>

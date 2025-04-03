@@ -31,7 +31,13 @@ class PostStoreController extends Controller
         $post->image=$validated_data['image'];
         $post->author_id=Auth::id();
         $post->save();
+        if ($post !== null) {
 
-        return to_route('posts.index');
+                return to_route('posts.index')->with('success', 'Post created successfully');
+            }
+
+        return to_route('posts.index')->with('error', 'Failed to save post');
+
+
     }
 }
