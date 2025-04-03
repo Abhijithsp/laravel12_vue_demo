@@ -2,13 +2,13 @@
 import InputError from '@/components/InputError.vue';
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button';
-
+import { ref } from 'vue';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 import { Head, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
-import type { BreadcrumbItem } from '@/types';
+import { BreadcrumbItem, PostData } from '@/types';
 import AppLayout from '@/layouts/AppLayout.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -18,15 +18,28 @@ const breadcrumbs: BreadcrumbItem[] = [
     }
 ];
 
-const form = useForm({
+const form = useForm<PostData>({
     title: '',
-    description: '',
+    content: '',
     image: null
 });
 
+
+const imagePreview = ref<string | null>(null);
+
+const handleImageChange = (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    const file = target.files?.[0];
+    if (file) {
+        form.image = file;
+        imagePreview.value = URL.createObjectURL(file);
+    }
+};
+
 const submit = () => {
     form.post(route('posts.store'), {
-        onFinish: () => form.reset('title', 'description', 'image')
+        onSuccess: () => console.log('Post created successfully'),
+        onError: (errors) => console.log('Errors:', errors),
     });
 };
 </script>
@@ -57,31 +70,30 @@ const submit = () => {
                     <div class="grid gap-2">
                         <Label for="description">Description</Label>
                         <Textarea
-                            id="description"
+                            id="content"
                             type="text"
                             required
                             :tabindex="2"
-                            autocomplete="description"
-                            v-model="form.description"
+                            autocomplete="content"
+                            v-model="form.content"
                             placeholder="Description"
                         />
-                        <InputError :message="form.errors.description" />
+                        <InputError :message="form.errors.content" />
                     </div>
 
                     <div class="grid gap-2">
                         <Label for="image">Image</Label>
-                        <Input id="image" type="file" :tabindex="3" @input="form.image = $event.target.files[0]" />
+                        <Input id="image" type="file" :tabindex="3" @input="handleImageChange" />
+                        <img v-if="imagePreview" :src="imagePreview" alt="Preview" class="mt-2 max-w-xs" />
                         <InputError :message="form.errors.image" />
                     </div>
 
 
                     <Button type="submit" class="mt-4 w-full" variant="destructive" :tabindex="4" :disabled="form.processing">
-
+                        <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
                        Submit
                     </Button>
-                    <progress v-if="form.progress" :value="form.progress.percentage" max="100">
-                        {{ form.progress.percentage }}%
-                    </progress>
+
 
                 </div>
 
