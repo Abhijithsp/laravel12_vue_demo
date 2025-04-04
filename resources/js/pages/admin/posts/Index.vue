@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
-import { Head ,Link,usePage,useForm,router  } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { type BreadcrumbItem,FlashMessage } from '@/types';
+import { Head ,Link,usePage,useForm  } from '@inertiajs/vue3';
+import { computed,onMounted,watch } from 'vue';
 import { Button } from '@/components/ui/button';
 import {StickyNote,Pencil,Trash2}  from 'lucide-vue-next';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from '@/components/ui/table'
-
+import { Table, TableBody,TableCell, TableHead, TableHeader, TableRow} from '@/components/ui/table'
+import { toast } from 'vue-sonner'
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -19,16 +19,42 @@ const page = usePage()
 
 const flash = computed(() => page.props.flash)
 defineProps({ posts: Object })
-const form = useForm({});
-const deletePost = (id: number) => {
-    if (confirm("Are you sure you want to delete this post and its image?")) {
-        form.delete(route("posts.destroy", id), {
-            onSuccess: () => {
-                alert("Post and image deleted successfully!");
-            },
 
-        });
-    }
+const form = useForm({});
+
+onMounted(() => {
+    watch(() => usePage<{ flash: FlashMessage }>().props.flash,
+        (flash: FlashMessage) => {
+            if (flash.success) {
+                toast.success(flash.success);
+                flash.success = '';
+            }
+
+            if(flash.error){
+                toast.error(flash.error);
+                flash.error = '';
+            }
+        },
+        { immediate: true }
+    );
+});
+
+
+const deletePost = (id: number) => {
+    toast('Are you sure you want to delete this post and its image?', {
+        action: {
+            label: 'Delete',
+            onClick: () => {
+                form.delete(route("posts.destroy", id), {
+                    onSuccess: () => {
+                        toast.success("Post deleted successfully");
+                    },
+
+                });
+            }
+        },
+    })
+
 };
 </script>
 
@@ -37,18 +63,6 @@ const deletePost = (id: number) => {
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <Alert variant="destructive" v-if="flash.error" >
-                <AlertTitle>Error</AlertTitle>
-                <AlertDescription>
-                    {{flash.error }}
-                </AlertDescription>
-            </Alert>
-            <Alert v-if="flash.success">
-                <AlertTitle>Success</AlertTitle>
-                <AlertDescription>
-                    {{flash.success }}
-                </AlertDescription>
-            </Alert>
             <div class="flex justify-end">
                 <Link href="/posts/create">   <Button variant="destructive" class="mt-2 w-40 justify-center">
                     <StickyNote />Create Post
@@ -72,12 +86,12 @@ const deletePost = (id: number) => {
 
                         </TableRow>
                     </TableHeader>
-                    <TableBody class="justify-center">
+                    <TableBody class="text-justify">
                         <TableRow v-for="(post, index) in posts" :key="index">
                             <TableCell class="font-medium text-center">{{ post.id }}</TableCell>
                             <TableCell class="font-medium text-center">{{ post.title }}</TableCell>
-                            <TableCell class="font-medium text-center">{{ post.content }}</TableCell>
-                            <TableCell><img :src="`/storage/${post.image}`" alt="image" class="h-20 w-20 rounded object-fill"></TableCell>
+                            <TableCell class="font-medium text-justify">{{ post.content }}</TableCell>
+                            <TableCell class="w-100"><img :src="`/storage/${post.image}`" alt="image" class="h-40 w-80  object-fill"></TableCell>
                             <TableCell class="font-medium text-center"> <Link :href="route('posts.edit', post.id)"><Button class="mt-2 w-30 justify-center">
                                 <Pencil />Edit
                             </Button></Link></TableCell>

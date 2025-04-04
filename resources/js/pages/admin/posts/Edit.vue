@@ -13,6 +13,7 @@ const form = useForm({
 const submit = () => {
     form.post(route("posts.update", props.post.id), {
         onSuccess: () => alert("Post updated successfully!"),
+        onError:()=>alert("Error updating post"),
     });
 };
 </script>

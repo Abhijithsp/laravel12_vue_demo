@@ -42,3 +42,8 @@ export type PostData={
     content: string;
     image:file|null
 }
+
+export interface  FlashMessage{
+    success: string;
+    error: string
+}
