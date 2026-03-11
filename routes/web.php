@@ -28,7 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
-    Route::post('grok_chat',ChatController::class)->name('grok_chat ');
+    Route::post('grok_chat',ChatController::class)->name('grok_chat');
 
 });
 
