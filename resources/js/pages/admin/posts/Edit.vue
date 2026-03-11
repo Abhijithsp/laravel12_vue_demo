@@ -17,7 +17,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.put(route("posts.update", props.post.id), {
+    form.post(route("posts.update", props.post.id) + '?_method=PUT', {
         onSuccess: () => alert("Post updated successfully!"),
         onError:()=>alert("Error updating post"),
     });
