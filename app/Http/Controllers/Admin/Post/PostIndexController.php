@@ -14,7 +14,7 @@ class PostIndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $posts=Post::all();
-        return Inertia::render('admin/posts/Index',['posts'=>$posts]);
+        $posts = Post::latest()->paginate(10);
+        return Inertia::render('admin/posts/Index', ['posts' => $posts]);
     }
 }
