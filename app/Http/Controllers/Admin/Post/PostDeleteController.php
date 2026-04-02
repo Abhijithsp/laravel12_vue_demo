@@ -21,7 +21,7 @@ class PostDeleteController extends Controller
         Gate::authorize('delete', $post);
 
         if ($post->image) {
-            Storage::delete("storage/{$post->image}");
+            Storage::disk('public')->delete($post->image);
         }
         $post->delete();
 
