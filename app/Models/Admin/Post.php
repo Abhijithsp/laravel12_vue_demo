@@ -18,7 +18,7 @@ class Post extends Model
       'author_id'
   ];
 
-  public function user():belongsTo
+  public function user(): BelongsTo
   {
       return $this->belongsTo(User::class);
   }
