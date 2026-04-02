@@ -56,6 +56,13 @@ const deletePost = (id: number) => {
     })
 
 };
+
+const decodeLabel = (label: string) => {
+    return label
+        .replace(/&laquo;/g, '«')
+        .replace(/&raquo;/g, '»')
+        .replace(/&amp;/g, '&');
+};
 </script>
 
 <template>
@@ -105,8 +112,8 @@ const deletePost = (id: number) => {
             <div v-if="posts.links && posts.links.length > 3" class="flex justify-center mt-4">
                 <div class="flex flex-wrap -mb-1">
                     <template v-for="(link, key) in posts.links" :key="key">
-                        <div v-if="link.url === null" class="mr-1 mb-1 px-4 py-2 text-sm leading-4 text-gray-400 border rounded" v-html="link.label" />
-                        <Link v-else class="mr-1 mb-1 px-4 py-2 text-sm leading-4 border rounded hover:bg-white focus:border-primary focus:text-primary" :class="{ 'bg-primary text-primary-foreground': link.active }" :href="link.url" v-html="link.label" />
+                        <div v-if="link.url === null" class="mr-1 mb-1 px-4 py-2 text-sm leading-4 text-gray-400 border rounded">{{ decodeLabel(link.label) }}</div>
+                        <Link v-else class="mr-1 mb-1 px-4 py-2 text-sm leading-4 border rounded hover:bg-white focus:border-primary focus:text-primary" :class="{ 'bg-primary text-primary-foreground': link.active }" :href="link.url">{{ decodeLabel(link.label) }}</Link>
                     </template>
                 </div>
             </div>
