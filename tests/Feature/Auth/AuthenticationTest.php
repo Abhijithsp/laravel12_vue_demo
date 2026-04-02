@@ -33,6 +33,28 @@ test('users can not authenticate with invalid password', function () {
     $this->assertGuest();
 });
 
+test('login attempts are rate limited', function () {
+    \Illuminate\Support\Facades\Event::fake();
+
+    $user = User::factory()->create();
+
+    for ($i = 0; $i < 5; $i++) {
+        $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'wrong-password',
+        ]);
+    }
+
+    $response = $this->post('/login', [
+        'email' => $user->email,
+        'password' => 'wrong-password',
+    ]);
+
+    \Illuminate\Support\Facades\Event::assertDispatched(\Illuminate\Auth\Events\Lockout::class);
+    $response->assertSessionHasErrors('email');
+    $this->assertGuest();
+});
+
 test('users can logout', function () {
     $user = User::factory()->create();
 
