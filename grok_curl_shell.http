@@ -5,7 +5,7 @@ GET https://examples.http-client.intellij.net/get
 ###
 
 POST https://api.x.ai/v1/chat/completions
-Authorization: Bearer xai-BdyT4eKdPJrJuonFN16U8OATFN5k2iVAcTAANMIVrhgShQ0wGqcJY7absP3QFnYNXcG6zhwSRaj8LPUJ
+Authorization: Bearer {{GROK_API_KEY}}
 Content-Type: application/json
 
 {
