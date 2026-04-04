@@ -13,7 +13,11 @@ class PostIndexController extends Controller
      */
     public function __invoke()
     {
-        $posts = Post::latest()->paginate(10);
+        $posts = Post::select('id', 'title', 'content', 'image', 'author_id', 'created_at')
+            ->with('user:id,name')
+            ->latest()
+            ->paginate(10);
+
         return Inertia::render('admin/posts/Index', ['posts' => $posts]);
     }
 }
