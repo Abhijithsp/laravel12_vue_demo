@@ -91,7 +91,7 @@ const deletePost = (id: number) => {
                             <TableCell class="font-medium text-center">{{ post.id }}</TableCell>
                             <TableCell class="font-medium text-center">{{ post.title }}</TableCell>
                             <TableCell class="font-medium text-justify">{{ post.content }}</TableCell>
-                            <TableCell class="w-100"><img :src="`/storage/${post.image}`" alt="image" class="h-40 w-80  object-fill"></TableCell>
+                            <TableCell class="w-100"><img :src="`/storage/${post.image}`" alt="image" class="h-40 w-80 object-fill" loading="lazy" decoding="async" width="320" height="160"></TableCell>
                             <TableCell class="font-medium text-center"> <Link :href="route('posts.edit', post.id)"><Button class="mt-2 w-30 justify-center">
                                 <Pencil />Edit
                             </Button></Link></TableCell>
