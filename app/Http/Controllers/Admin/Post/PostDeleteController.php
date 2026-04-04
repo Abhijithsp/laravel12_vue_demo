@@ -22,6 +22,5 @@ class PostDeleteController extends Controller
         $post->delete();
 
         return to_route('posts.index')->with('success', 'Post and image deleted successfully.');
-
     }
 }

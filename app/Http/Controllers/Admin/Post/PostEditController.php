@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\Post;
 
 use Illuminate\Support\Facades\Gate;
-
 use Inertia\Inertia;
 
 class PostEditController extends Controller
@@ -18,6 +17,6 @@ class PostEditController extends Controller
     {
         Gate::authorize('view', $post);
 
-        return Inertia::render('admin/posts/Edit',['post'=>$post]);
+        return Inertia::render('admin/posts/Edit', ['post' => $post]);
     }
 }
