@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin\Post;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Post;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 use Inertia\Inertia;
