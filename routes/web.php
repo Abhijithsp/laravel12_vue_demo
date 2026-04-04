@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\Chat\ChatController;
 use App\Http\Controllers\Admin\Post\PostDeleteController;
 use App\Http\Controllers\Admin\Post\PostEditController;
 use App\Http\Controllers\Admin\Post\PostIndexController;
@@ -27,8 +26,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('posts/{post}',PostDeleteController::class)->name('posts.destroy');
 
 
-
-    Route::post('grok_chat',ChatController::class)->name('grok_chat');
 
 });
 
